@@ -1,8 +1,9 @@
 export interface Movie{
     id: number;
-    original_title: string;
-    overview: string;
-    release_date: number;
+    title: string;
     poster_path: string;
-    genres: string[];
+    // genres: string[];
+    release_date: string;
+    overview: string;
+    vote_average: number;
 }
