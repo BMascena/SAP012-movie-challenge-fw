@@ -1,0 +1,16 @@
+<div class="pagination">
+  <!-- Botão "Anterior", que decrementa a página atual em 1 quando clicado -->
+  <!-- Ele está desabilitado se a página atual for a primeira página (currentPage === 1) -->
+  <button (click)="onPageSelect(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+
+  <!-- ng-container para percorrer o array de páginas e gerar um botão para cada página -->
+  <ng-container *ngFor="let page of pages">
+      <!-- Cada botão representa um número de página e chama onPageSelect com o número da página correspondente quando clicado -->
+      <!-- A classe 'active' é aplicada ao botão da página atual (currentPage === page) -->
+      <button (click)="onPageSelect(page)" [class.active]="currentPage === page">{{ page }}</button>
+  </ng-container>
+
+  <!-- Botão "Próximo", que incrementa a página atual em 1 quando clicado -->
+  <!-- Ele está desabilitado se a página atual for a última página (currentPage === totalPages.length) -->
+  <button (click)="onPageSelect(currentPage + 1)" [disabled]="currentPage === totalPages.length">Próximo</button>
+</div>

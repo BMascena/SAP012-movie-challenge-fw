@@ -10,7 +10,9 @@ import { environment } from 'src/environments/environment';
 import { Movie } from 'src/models/Movie';
 
 // Importar a função que vai nos ajudar a formatar os dados dos filmes recebidos da API
-import { formatMovie } from 'src/utils/transformers';
+import { formatMetaData, formatMovie } from 'src/utils/transformers';
+import { Filters } from 'src/models/Filters';
+import { MetaData } from 'src/models/MetaData';
 
 @Injectable({
   providedIn: 'root'
@@ -23,19 +25,18 @@ export class TheMovieDbService {
     constructor(private readonly http: HttpClient) { }
 
     // Este é o método que usaremos para obter filmes da API
-    getMovies(): Observable<Movie[]> {
+    getMovies(Filters?:Filters): Observable<MetaData> {
       // Realizar uma requisição GET para a API do The Movie DB para obter filmes
-      return this.http.get<Movie[]>(`${environment.URL_API}`, { headers: this.headers }).pipe(
+      return this.http.get<MetaData>(`${environment.URL_API}`, { headers: this.headers }).pipe(
         // Usar o operador map para transformar os resultados da requisição em um formato que podemos usar na nossa aplicação
         map((response:any) => 
           // Mapear cada resultado para o modelo de filme usando a função formatMovie
-          response.results.map((result: any) => formatMovie(result)))
-      );
-    }
+          // response.results.map((result: any) => formatMovie(result)))
+          formatMetaData(response)
+      )
+    )
+  }
 }
-
-
-// Injectable (Injetável):
 
 // Injectable, ou "injetável" em português, é um decorador especial fornecido pelo Angular que é usado para marcar uma classe como um serviço.
 // É como colocar uma etiqueta especial em uma caixa de ferramentas para dizer que ela está disponível para ser usada em outros lugares.

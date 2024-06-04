@@ -7,6 +7,9 @@ import { TheMovieDbService } from '../../shared/services/the-movie-db/the-movie-
 // Importa o modelo Movie para tipagem dos dados dos filmes
 import { Movie } from 'src/models/Movie';
 
+// Importa o modelo MetaData para tipagem dos metadados da API
+import { MetaData } from 'src/models/MetaData'
+
 @Component({
   selector: 'app-home',  // Define o seletor do componente, que será usado em templates HTML
   templateUrl: './home.component.html',  // Define o arquivo de template HTML do componente
@@ -27,8 +30,8 @@ export class HomeComponent implements OnInit {
     // Chama o método getMovies do serviço TheMovieDbService para obter os dados dos filmes
     this.movieService.getMovies().subscribe({
       // Função de callback que é executada quando a requisição é bem-sucedida
-      next: (movies) => {
-        this.movies = movies;  // Armazena os filmes recebidos na variável `movies`
+      next: (metaData: MetaData) => {
+        this.movies = metaData.movies;  // Armazena os filmes recebidos na variável `movies`
         this.isLoading = false;  // Define `isLoading` como false para indicar que o carregamento terminou
       },
       // Função de callback que é executada em caso de erro na requisição
@@ -36,6 +39,6 @@ export class HomeComponent implements OnInit {
         console.error('Erro ao obter filmes:', error);  // Loga o erro no console para depuração
         this.isLoading = false;  // Define `isLoading` como false mesmo em caso de erro, para parar o indicador de carregamento
       }
-  });
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { Movie } from "src/models/Movie";
+import { MetaData } from "src/models/MetaData";
 
 export function formatMovie (apiMovieData: any): Movie{
     const baseUrl = 'https://image.tmdb.org/t/p/w500';
@@ -14,3 +15,19 @@ export function formatMovie (apiMovieData: any): Movie{
 }
 
 
+export function formatMetaData(apiMovieResp: any): MetaData{
+  let transformedMovies = apiMovieResp.results.map((movie: any) => {
+      return formatMovie(movie);
+    })
+  
+    const formatedData: MetaData ={
+      metaData: {
+          pagination: {
+            currentPage: apiMovieResp.page,
+            totalPages: apiMovieResp.total_pages
+          }
+        },
+      movies: transformedMovies
+    }
+    return formatedData;
+}
